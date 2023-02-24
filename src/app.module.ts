@@ -6,20 +6,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BankModule } from './bank/bank.module';
 import { TransactionModule } from './transaction/transaction.module';
-
 @Module({
   imports: [
+    ConfigModule.forRoot(),
     SequelizeModule.forRoot({
       dialect: 'postgres',
-      host: '/cloudsql/ivory-setup-378803:southamerica-west1:check-test-postgres',
-      port: 5432,
-      username: 'postgres',
-      password: 'check',
-      database: 'check_devel',
+      host: process.env.DB_HOST,
+      port: parseInt(process.env.DB_PORT),
+      username: process.env.DB_USER,
+      password: process.env.DB_PASS,
+      database: process.env.DB_NAME,
       autoLoadModels: true,
       synchronize: true,
     }),
-    ConfigModule.forRoot(),
     BankModule,
     TransactionModule,
     AddressModule,
